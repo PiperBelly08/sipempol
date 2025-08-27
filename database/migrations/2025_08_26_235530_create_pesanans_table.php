@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pelanggan_id')->constrained('pelanggans')->onDelete('cascade');
             $table->foreignId('layanan_id')->constrained('layanans')->onDelete('cascade');
-            $table->foreignId('status_id')->constrained('pesanan_statuses')->onDelete('cascade');
+            $table->foreignId('status_id')->constrained('status_pesanan')->onDelete('cascade');
             $table->text('deskripsi_pesan')->nullable(true);
             $table->string('file_desain')->nullable(true);
             $table->integer('jumlah_pemesanan')->default(1);

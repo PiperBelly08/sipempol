@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesanan_statuses', function (Blueprint $table) {
+        Schema::create('status_pesanan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_status');
+            $table->enum('nama_status', ['Pending', 'Diproses', 'Selesai', 'Dibatalkan'])->default('Pending')->values(['Pending', 'Diproses', 'Selesai', 'Dibatalkan']);
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesanan_statuses');
+        Schema::dropIfExists('status_pesanan');
     }
 };

@@ -3,7 +3,7 @@
          alt="User Avatar" class="user-avatar rounded-circle me-2">
     <div class="flex-grow-1">
         <div class="text-white small fw-semibold">{{ auth()->user()->name ?? 'Guest User' }}</div>
-        <div class="text-muted small">{{ auth()->user()->email ?? 'guest@example.com' }}</div>
+        <div class="text-light small">{{ auth()->user()->email ?? 'guest@example.com' }}</div>
     </div>
 </div>
 <div class="dropdown">
@@ -18,7 +18,7 @@
         </a></li>
         <li><hr class="dropdown-divider"></li>
         <li>
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('login.destroy') }}">
                 @csrf
                 <button type="submit" class="dropdown-item">
                     <i class="bi bi-box-arrow-right me-2"></i>Sign out

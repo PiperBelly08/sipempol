@@ -3,6 +3,7 @@
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('layanan', LayananController::class);
     Route::resource('pesanan', PesananController::class);
+    Route::resource('profil', ProfileController::class);
 });

@@ -1,6 +1,18 @@
+@php
+    function rand_str($length): string
+    {
+        $characters = '0123456789abcdef';
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $string;
+    }
+@endphp
+
 <div class="d-flex align-items-center mb-2">
-    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name ?? 'User') }}&color=ffffff&background=0d6efd"
-         alt="User Avatar" class="user-avatar rounded-circle me-2">
+    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name ?? 'User') }}&color={{ rand_str(6) }}&background={{ rand_str(6) }}" alt="User Avatar" class="user-avatar rounded-circle me-2">
+
     <div class="flex-grow-1">
         <div class="text-white small fw-semibold">{{ auth()->user()->name ?? 'Guest User' }}</div>
         <div class="text-light small">{{ auth()->user()->email ?? 'guest@example.com' }}</div>

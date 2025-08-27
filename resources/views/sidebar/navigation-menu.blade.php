@@ -1,49 +1,45 @@
 <ul class="nav flex-column py-3">
     <li class="nav-item">
-        <a href="{{ route('dashboard') }}"
-           class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <i class="bi bi-speedometer2"></i>
             Dashboard
         </a>
     </li>
 
+    @hasrole('admin')
     <li class="nav-item">
-        <a href="{{ route('user.index') }}"
-           class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
+        <a href="{{ route('user.index') }}" class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
             <i class="bi bi-people"></i>
             Users
         </a>
     </li>
 
     <li class="nav-item">
-        <a href="{{ route('layanan.index') }}"
-           class="nav-link {{ request()->routeIs('layanan.*') ? 'active' : '' }}">
+        <a href="{{ route('layanan.index') }}" class="nav-link {{ request()->routeIs('layanan.*') ? 'active' : '' }}">
             <i class="bi bi-box"></i>
             Products
         </a>
     </li>
 
     <li class="nav-item">
-        <a href="{{ route('pesanan.index') }}"
-           class="nav-link {{ request()->routeIs('pesanan.*') ? 'active' : '' }}">
+        <a href="{{ route('pesanan.index') }}" class="nav-link {{ request()->routeIs('pesanan.*') ? 'active' : '' }}">
             <i class="bi bi-clipboard-check"></i>
             Orders
         </a>
     </li>
+    @endhasrole
 
-    <li class="nav-item">
-        <a href="#"
-           class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+    {{-- <li class="nav-item">
+        <a href="#" class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
             <i class="bi bi-bar-chart"></i>
             Reports
         </a>
     </li>
 
     <li class="nav-item">
-        <a href="#"
-           class="nav-link {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+        <a href="#" class="nav-link {{ request()->routeIs('settings.*') ? 'active' : '' }}">
             <i class="bi bi-gear"></i>
             Settings
         </a>
-    </li>
+    </li> --}}
 </ul>

@@ -87,6 +87,17 @@
                         @endrole
 
                         @role('admin')
+
+                        @if ($pesanan->status == 'Pending')
+                        <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post" class="d-flex gap-2">
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-sm btn-success" name="status" value="Diproses" title="terima?"><i class="bi bi-check-circle-fill"></i></button>
+                            <button type="submit" class="btn btn-sm btn-danger" name="status" value="Dibatalkan" title="tolak?"><i class="bi bi-x-circle-fill"></i></button>
+                        </form>
+                        @endif
+
+                        @if ($pesanan->status != 'Pending')
                         <a href="{{ route('pesanan.show', $pesanan->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
                         <a href="{{ route('pesanan.edit', $pesanan->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
 
@@ -114,6 +125,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         @endrole
                     </div>
                 </td>

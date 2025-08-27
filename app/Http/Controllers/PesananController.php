@@ -70,7 +70,28 @@ class PesananController extends Controller
      */
     public function update(Request $request, Pesanan $pesanan)
     {
-        //
+        if ($pesanan->status == 'Pending') {
+            $validated = $request->validate([
+                'status' => 'required|in:Diproses,Ditolak',
+            ]);
+
+            $pesanan->update(['status' => $validated['status']]);
+
+            return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil Diperbarui.');
+        }
+
+        $validated = $request->validate([
+            'layanan_id' => 'required|exists:App\Models\Layanan,id',
+            'pelanggan_id' => 'required|exists:App\Models\User,id',
+            'jumlah_pemesanan' => 'required|numeric|min:1',
+            'deskripsi_pesan' => 'nullable|string',
+            'tanggal_pesan' => 'required|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_pesan',
+            'total_harga' => 'required|numeric|min:1',
+        ]);
+
+        $pesanan->update($validated);
+        return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil diperbarui.');
     }
 
     /**

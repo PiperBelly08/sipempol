@@ -109,7 +109,7 @@
         <nav id="sidebar" class="sidebar d-flex flex-column">
             <!-- Brand -->
             <div class="sidebar-brand">
-                <a href="#">
+                <a href="{{ route('dashboard') }}">
                     <i class="bi bi-bootstrap me-2"></i>
                     {{ config('app.name', 'SIPEMPOL') }}
                 </a>

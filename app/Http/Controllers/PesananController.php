@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pelanggan;
 use App\Models\Pesanan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PesananController extends Controller
@@ -12,7 +14,12 @@ class PesananController extends Controller
      */
     public function index()
     {
-        $pesanans = Pesanan::all();
+        $pesanans = [];
+        if (auth()->user()->hasRole('customer')) {
+            $pesanans = User::findOrFail(auth()->user()->id)->first()->pelanggan->pesanan;
+        } else {
+            $pesanans = Pesanan::all();
+        }
         return view('pages.pesanans.index', compact('pesanans'));
     }
 
@@ -29,7 +36,17 @@ class PesananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'layanan_id' => 'required|exists:App\Models\Layanan,id',
+            'pelanggan_id' => 'required|exists:App\Models\User,id',
+            'jumlah_pemesanan' => 'required|numeric|min:1',
+            'deskripsi_pesan' => 'nullable|string',
+            'tanggal_pesan' => 'required|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_pesan',
+            'total_harga' => 'required|numeric|min:1',
+        ]);
+
+        Pesanan::create($validated);
     }
 
     /**
@@ -37,7 +54,7 @@ class PesananController extends Controller
      */
     public function show(Pesanan $pesanan)
     {
-        return view('pages.pesanans.show', compact('pesanan'));
+        return view('pages.pesanans.view', compact('pesanan'));
     }
 
     /**

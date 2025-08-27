@@ -37,7 +37,7 @@ class LayananController extends Controller
      */
     public function show(Layanan $layanan)
     {
-        return view('pages.layanans.show', compact('layanan'));
+        return view('pages.layanans.view', compact('layanan'));
     }
 
     /**
@@ -62,6 +62,6 @@ class LayananController extends Controller
     public function destroy(Layanan $layanan)
     {
         $layanan->delete();
-        return redirect()->route('layanans.index')->with('success', 'Layanan berhasil dihapus.');
+        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil dihapus.');
     }
 }

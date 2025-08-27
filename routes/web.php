@@ -13,7 +13,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('login.destroy'
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('pages.home');
+        $layanans = \App\Models\Layanan::all();
+        return view('pages.home', compact('layanans'));
     })->name('dashboard');
     Route::resource('user', UserController::class);
     Route::resource('layanan', LayananController::class);

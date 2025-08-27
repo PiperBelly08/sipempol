@@ -26,8 +26,7 @@
                     <span class="input-group-text bg-white border-end-0">
                         <i class="bi bi-search text-muted"></i>
                     </span>
-                    <input type="search" class="form-control border-start-0" placeholder="Search..."
-                           style="box-shadow: none;">
+                    <input type="search" class="form-control border-start-0" placeholder="Search..." style="box-shadow: none;">
                 </div>
             </div>
         </div>

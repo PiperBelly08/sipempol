@@ -19,7 +19,6 @@
             <th>Status</th>
             <th>Deskripsi</th>
             <th>File</th>
-            <th>Jumlah</th>
             <th>Tanggal Pesan</th>
             <th>Tanggal Selesai</th>
             <th>Total Harga</th>
@@ -32,17 +31,35 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $pesanan->pelanggan->nama }}</td>
                 <td>{{ $pesanan->layanan->nama }}</td>
-                <td>{{ $pesanan->status->nama_status }}</td>
-                <td>{{ $pesanan->deskripsi }}</td>
-                <td>{{ $pesanan->file }}</td>
-                <td>{{ $pesanan->jumlah }}</td>
+                <td>
+                    <div class="d-flex gap-1">
+                        @switch($pesanan->status)
+                            @case('Pending')
+                                <span class="badge rounded-pill bg-warning text-dark">{{ $pesanan->status }}</span>
+                            @break
+
+                            @case('Diproses')
+                                <span class="badge rounded-pill bg-primary">{{ $pesanan->status }}</span>
+                            @break
+
+                            @case('Selesai')
+                                <span class="badge rounded-pill bg-success">{{ $pesanan->status }}</span>
+                            @break
+
+                            @case('Dibatalkan')
+                                <span class="badge rounded-pill bg-danger">{{ $pesanan->status }}</span>
+                            @break
+                        @endswitch
+                    </div>
+                </td>
+                <td>{{ $pesanan->deskripsi_pesan }}</td>
+                <td>{{ $pesanan->file_desain }}</td>
                 <td>{{ $pesanan->tanggal_pesan }}</td>
                 <td>{{ $pesanan->tanggal_selesai }}</td>
                 <td>{{ $pesanan->total_harga }}</td>
                 <td>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('pesanan.show', $pesanan->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
-                        <a href="{{ route('pesanan.edit', $pesanan->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                        @role('customer')
                         <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser{{ $pesanan->id }}">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -54,7 +71,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Apakah Anda yakin ingin menghapus pesanan <b>{{ $pesanan->name }}</b>?
+                                        Apakah Anda yakin ingin menghapus pesanan ini?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -67,6 +84,37 @@
                                 </div>
                             </div>
                         </div>
+                        @endrole
+
+                        @role('admin')
+                        <a href="{{ route('pesanan.show', $pesanan->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
+                        <a href="{{ route('pesanan.edit', $pesanan->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser{{ $pesanan->id }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <div class="modal fade" id="deleteUser{{ $pesanan->id }}" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteUserLabel">Hapus Pengguna</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus pesanan ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <form action="{{ route('pesanan.destroy', $pesanan->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endrole
                     </div>
                 </td>
             </tr>

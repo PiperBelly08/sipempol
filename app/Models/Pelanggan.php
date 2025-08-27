@@ -14,4 +14,14 @@ class Pelanggan extends Model
         'telepon',
         'email',
     ];
+
+    public function pesanan()
+    {
+        return $this->hasMany(Pesanan::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

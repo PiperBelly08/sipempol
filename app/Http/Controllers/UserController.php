@@ -15,7 +15,6 @@ class UserController extends Controller
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'customer');
         })->get();
-
         return view('pages.users.index', compact('users'));
     }
 
@@ -64,6 +63,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('user.index')->with('success', 'Pengguna berhasil dihapus');
     }
 }

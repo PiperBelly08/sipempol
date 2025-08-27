@@ -8,7 +8,7 @@
     </li>
 
     <li class="nav-item">
-        <a href="#"
+        <a href="{{ route('user.index') }}"
            class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
             <i class="bi bi-people"></i>
             Users

@@ -19,7 +19,7 @@
         </div>
 
         <!-- Top bar actions -->
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center invisible">
             <!-- Search -->
             <div class="me-3">
                 <div class="input-group" style="width: 250px;">

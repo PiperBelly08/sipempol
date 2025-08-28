@@ -29,7 +29,22 @@ class LayananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric|min:10000',
+            'file' => 'nullable|file|mimes:jpg,jpeg,png',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = sprintf('SIPEMPOL_%s.%s', time(), $file->getClientOriginalExtension());
+            $file->move(public_path('images/layanan'), $filename);
+            $validated['gambar'] = $filename;
+        }
+
+        Layanan::create($validated);
+        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
     /**

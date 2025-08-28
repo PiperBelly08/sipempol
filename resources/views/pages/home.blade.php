@@ -2,7 +2,7 @@
 
 @role('admin')
 @section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
+@section('page-title', 'Dashboard Sistem Informasi Pendaftaran & Pemesanan Online')
 @endrole
 
 @hasrole('customer')
@@ -15,7 +15,7 @@
 
 @role('customer')
 @section('title', 'Products')
-@section('page-title', 'Layanan')
+@section('page-title', 'Layanan Sistem Informasi Pendaftaran & Pemesanan Online')
 @endrole
 
 @section('content')

@@ -23,8 +23,8 @@
 <div class="row">
     @foreach ([
         ['title' => 'Jumlah Pelanggan', 'count' => $customers, 'route' => 'user.index', 'color' => 'light', 'icon' => 'bi-people-fill'],
-        ['title' => 'Jumlah Layanan', 'count' => $layanans->count(), 'route' => 'layanan.index', 'color' => 'light', 'icon' => 'bi-box'],
-        ['title' => 'Jumlah Pesanan', 'count' => $orders->count(), 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-clipboard-check'],
+        ['title' => 'Jumlah Layanan', 'count' => $layanans->count(), 'route' => 'layanan.index', 'color' => 'light', 'icon' => 'bi-box-fill'],
+        ['title' => 'Jumlah Pesanan', 'count' => $orders->count(), 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-clipboard-check-fill'],
     ] as $card)
     <div class="col-md-4 mb-3">
         <div class="card text-dark bg-{{ $card['color'] }}">
@@ -42,8 +42,8 @@
     </div>
     @endforeach
     @foreach ([
-        ['title' => 'Pesanan Menunggu', 'count' => $pendingOrders, 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-clock'],
-        ['title' => 'Pesanan Diproses', 'count' => $processedOrders, 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-gear'],
+        ['title' => 'Pesanan Menunggu', 'count' => $pendingOrders, 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-clock-fill'],
+        ['title' => 'Pesanan Diproses', 'count' => $processedOrders, 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-gear-fill'],
         ['title' => 'Pesanan Selesai', 'count' => $doneOrders, 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-check-circle-fill'],
         ['title' => 'Pesanan Dibatalkan', 'count' => $cancelledOrders, 'route' => 'pesanan.index', 'color' => 'light', 'icon' => 'bi-x-circle-fill']
     ] as $card)

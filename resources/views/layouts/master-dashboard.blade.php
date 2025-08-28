@@ -110,7 +110,7 @@
             <!-- Brand -->
             <div class="sidebar-brand">
                 <a href="{{ route('dashboard') }}">
-                    <i class="bi bi-bootstrap me-2"></i>
+                    <i class="bi bi-grid-3x3-gap-fill me-2"></i>
                     {{ config('app.name', 'SIPEMPOL') }}
                 </a>
             </div>

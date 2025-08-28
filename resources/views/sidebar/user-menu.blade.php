@@ -25,7 +25,7 @@
         Account
     </button>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{{ route('profil.show', auth()->user()->id) }}">
+        <li><a class="dropdown-item" href="{{ route('profil.show', auth()->id()) }}">
             <i class="bi bi-person me-2"></i>Profile
         </a></li>
         <li><hr class="dropdown-divider"></li>

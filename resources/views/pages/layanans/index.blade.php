@@ -27,12 +27,95 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $layanan->nama }}</td>
                 <td>{{ $layanan->deskripsi }}</td>
-                <td>{{ $layanan->harga }}</td>
-                <td>{{ $layanan->gambar }}</td>
+                <td>Rp{{ number_format($layanan->harga, 0, ',', '.') }}</td>
+                <td>
+                    @if(!isset($layanan->gambar))
+                        <span class="badge rounded-pill bg-danger">Belum Upload</span>
+                    @else
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#showFile{{ $layanan->id }}">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <div class="modal fade" id="showFile{{ $layanan->id }}" tabindex="-1" aria-labelledby="showFileLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="showFileLabel">File Desain</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="{{ 'images/layanan/' . $layanan->gambar }}" class="img-fluid" alt="File Desain" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </td>
                 <td>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('layanan.show', $layanan->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
-                        <a href="{{ route('layanan.edit', $layanan->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#uploadDesain{{ $layanan->id }}">
+                            <i class="bi bi-upload"></i>
+                        </button>
+                        <div class="modal fade" id="uploadDesain{{ $layanan->id }}" tabindex="-1" aria-labelledby="uploadDesainLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="uploadDesainLabel">Upload Gambar</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('layanan.update', $layanan->id) }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('put')
+                                            <input type="hidden" name="nama" value="{{ $layanan->nama }}">
+                                            <input type="hidden" name="deskripsi" value="{{ $layanan->deskripsi }}">
+                                            <input type="hidden" name="harga" value="{{ $layanan->harga }}">
+                                            <div class="mb-3">
+                                                <label for="file" class="form-label">Gambar</label>
+                                                <input class="form-control" type="file" id="file" name="file">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Upload</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <a href="{{ route('layanan.show', $layanan->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a> --}}
+                        {{-- <a href="{{ route('layanan.edit', $layanan->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a> --}}
+                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editLayanan{{ $layanan->id }}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <div class="modal fade" id="editLayanan{{ $layanan->id }}" tabindex="-1" aria-labelledby="editLayananLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editLayananLabel">Perbarui Data</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('layanan.update', $layanan->id) }}" method="post">
+                                            @csrf
+                                            @method('put')
+
+                                            <input type="hidden" name="status" value="{{ $layanan->status }}">
+                                            <div class="mb-3">
+                                                <label for="nama" class="form-label">Nama</label>
+                                                <input class="form-control" type="input" id="nama" name="nama" value="{{ $layanan->nama }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="deskripsi" class="form-label">Deskripsi</label>
+                                                <input class="form-control" type="input" id="deskripsi" name="deskripsi" value="{{ $layanan->deskripsi }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="harga" class="form-label">Harga</label>
+                                                <input class="form-control" type="number" inputmode="numeric" min="5000" step="5000" id="harga" name="harga" value="{{ (int) $layanan->harga }}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Perbarui</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser{{ $layanan->id }}">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -44,7 +127,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Apakah Anda yakin ingin menghapus layanan <b>{{ $layanan->name }}</b>?
+                                        Apakah Anda yakin ingin menghapus layanan <b>{{ $layanan->nama }}</b> ini?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

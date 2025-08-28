@@ -72,62 +72,96 @@
                 </td>
                 <td>{{ $pesanan->tanggal_pesan }}</td>
                 <td>{{ $pesanan->tanggal_selesai }}</td>
-                <td>{{ $pesanan->total_harga }}</td>
+                <td>Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
                 <td>
                     <div class="d-flex gap-2">
                         @role('customer')
-                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#uploadDesain{{ $pesanan->id }}">
-                            <i class="bi bi-upload"></i>
-                        </button>
-                        <div class="modal fade" id="uploadDesain{{ $pesanan->id }}" tabindex="-1" aria-labelledby="uploadDesainLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="uploadDesainLabel">Upload Desain</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('put')
-                                            <input type="hidden" name="status" value="{{ $pesanan->status }}">
-                                            <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
-                                            <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
-                                            <input type="hidden" name="total_harga" value="{{ $pesanan->total_harga }}">
-                                            <div class="mb-3">
-                                                <label for="file" class="form-label">Desain</label>
-                                                <input class="form-control" type="file" id="file" name="file">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Upload</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser{{ $pesanan->id }}">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                        <div class="modal fade" id="deleteUser{{ $pesanan->id }}" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteUserLabel">Hapus Pengguna</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Apakah Anda yakin ingin menghapus pesanan ini?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <form action="{{ route('pesanan.destroy', $pesanan->id) }}" method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
+                        @if ($pesanan->status == 'Pending')
+                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#uploadDesain{{ $pesanan->id }}">
+                                <i class="bi bi-upload"></i>
+                            </button>
+                            <div class="modal fade" id="uploadDesain{{ $pesanan->id }}" tabindex="-1" aria-labelledby="uploadDesainLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="uploadDesainLabel">Upload Desain</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('put')
+                                                <input type="hidden" name="status" value="{{ $pesanan->status }}">
+                                                <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
+                                                <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
+                                                <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
+                                                <div class="mb-3">
+                                                    <label for="file" class="form-label">Desain</label>
+                                                    <input class="form-control" type="file" id="file" name="file">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post" class="d-flex gap-2" onsubmit="return confirm('Yakin dengan pilihanmu?')">
+                                @csrf
+                                @method('put')
+                                <input type="hidden" name="status" value="{{ $pesanan->status }}">
+                                <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
+                                <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
+                                <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
+                                <button type="submit" class="btn btn-sm btn-danger" name="status" value="Dibatalkan" title="Batalkan pesanan">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </button>
+                            </form>
+                        @endif
+
+                        @if ($pesanan->status != 'Pending' && $pesanan->status != 'Dibatalkan')
+                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#uploadDesain{{ $pesanan->id }}">
+                                <i class="bi bi-upload"></i>
+                            </button>
+                            <div class="modal fade" id="uploadDesain{{ $pesanan->id }}" tabindex="-1" aria-labelledby="uploadDesainLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="uploadDesainLabel">Upload Desain</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('put')
+                                                <input type="hidden" name="status" value="{{ $pesanan->status }}">
+                                                <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
+                                                <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
+                                                <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
+                                                <div class="mb-3">
+                                                    <label for="file" class="form-label">Desain</label>
+                                                    <input class="form-control" type="file" id="file" name="file">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($pesanan->status == 'Diproses')
+                            <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post" class="d-flex gap-2" onsubmit="return confirm('Yakin dengan pilihanmu?')">
+                                @csrf
+                                @method('put')
+                                <input type="hidden" name="status" value="{{ $pesanan->status }}">
+                                <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
+                                <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
+                                <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
+                                <button type="submit" class="btn btn-sm btn-danger" name="status" value="Dibatalkan" title="Batalkan pesanan">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </button>
+                            </form>
+                        @endif
                         @endrole
 
                         @role('admin')
@@ -137,7 +171,7 @@
                             @method('put')
                             <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
                             <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
-                            <input type="hidden" name="total_harga" value="5000">
+                            <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
                             <button type="submit" class="btn btn-sm btn-success" name="status" value="Diproses" title="Terima pesanan">
                                 <i class="bi bi-check-circle-fill"></i>
                             </button>
@@ -154,7 +188,7 @@
                             <input type="hidden" name="status" value="{{ $pesanan->status }}">
                             <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
                             <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
-                            <input type="hidden" name="total_harga" value="{{ $pesanan->total_harga }}">
+                            <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
                             <button type="submit" class="btn btn-sm btn-success" name="status" value="Selesai" title="Selesaikan pesanan">
                                 <i class="bi bi-check-circle-fill"></i>
                             </button>
@@ -182,7 +216,7 @@
                                                 <input type="hidden" name="status" value="{{ $pesanan->status }}">
                                                 <input type="hidden" name="tanggal_pesan" value="{{ $pesanan->tanggal_pesan }}">
                                                 <input type="hidden" name="tanggal_selesai" value="{{ $pesanan->tanggal_selesai }}">
-                                                <input type="hidden" name="total_harga" value="{{ $pesanan->total_harga }}">
+                                                <input type="hidden" name="total_harga" value="{{ $pesanan->layanan->harga }}">
                                                 <div class="mb-3">
                                                     <label for="file" class="form-label">Desain</label>
                                                     <input class="form-control" type="file" id="file" name="file">

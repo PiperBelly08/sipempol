@@ -22,16 +22,11 @@ class Pesanan extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class, 'pelanggan_id', 'id');
     }
 
     public function layanan()
     {
-        return $this->belongsTo(Layanan::class);
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(StatusPesanan::class, 'status_id');
+        return $this->belongsTo(Layanan::class, 'layanan_id', 'id');
     }
 }

@@ -53,7 +53,29 @@ class LayananController extends Controller
      */
     public function update(Request $request, Layanan $layanan)
     {
-        //
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = sprintf('SIPEMPOL_%s.%s', time(), $file->getClientOriginalExtension());
+            $file->move(public_path('images/layanan'), $filename);
+
+            $validated = $request->validate([
+                'nama' => 'required|string|max:255',
+                'deskripsi' => 'nullable|string',
+                'harga' => 'required|numeric|min:10000',
+            ]);
+            $validated['gambar'] = $filename;
+            $layanan->update($validated);
+            return redirect()->route('layanan.index')->with('success', 'Layanan berhasil diperbarui.');
+        }
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric|min:10000',
+        ]);
+
+        $layanan->update($validated);
+        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
     /**

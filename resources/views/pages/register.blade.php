@@ -62,9 +62,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        <h2 class="text-center mb-4">Login</h2>
-        <form method="POST" action="{{ route('login.post') }}">
+        <h2 class="text-center mb-4">Register</h2>
+        <form method="POST" action="{{ route('register.post') }}">
             @csrf
+
+            <!-- Name input field -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" id="name">
+            </div>
 
             <!-- Email input field -->
             <div class="mb-3">
@@ -78,23 +84,20 @@
                 <input type="password" name="password" class="form-control" id="password">
             </div>
 
-            <!-- Login button -->
-            <button type="submit" class="btn btn-primary">Login</button>
-
-            <!-- Checkbox for "Remember Me" and "Forgot Password" link -->
-            <div class="d-flex justify-content-between align-items-center mb-3 invisible">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                </div>
-                <a href="#" class="text-decoration-none">Forgot Password?</a>
+            <!-- Confirm password input field -->
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                <input type="password" name="password_confirmation" class="form-control" id="password_confirmation">
             </div>
+
+            <!-- Register button -->
+            <button type="submit" class="btn btn-primary">Register</button>
 
         </form>
 
-        <!-- Link for new users to register -->
+        <!-- Link for new users to login -->
         <div class="text-center mt-3">
-            <p>Tidak punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+            <p>Sudah punya akun? <a href="{{ route('login') }}">Login di sini</a></p>
         </div>
     </div>
 </div>
